@@ -3,7 +3,7 @@
   "theme": "mint",
   "name": "Mint Starter Kit",
   "icons": {
-    "library": "lucide"
+    "library": "fontawesome"
   },
   "colors": {
     "primary": "#16A34A",
@@ -34,6 +34,12 @@
               "essentials/navigation",
               "essentials/reusable-snippets"
             ]
+          },
+          {
+            "group": "TakeHome",
+            "pages": [
+              "takehome/kaitlyn"
+            ]
           }
         ]
       },
@@ -54,6 +60,17 @@
               "api-reference/endpoint/delete",
               "api-reference/endpoint/webhook"
             ]
+          }, 
+          {
+            "group": "Web Hooks",
+            "pages" : [
+            {
+              "group": "Pets",
+              "pages": [
+                "api-reference/webhooks/newpet"
+              ]
+            }
+          ]
           }
         ]
       }

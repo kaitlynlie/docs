@@ -1,0 +1,48 @@
+---
+title: Kaitlyn
+description: Troubleshooting steps
+---
+
+<ResponseField name="Issue 1">
+  <Expandable title="Issue 1">
+    <ResponseField>
+      Troubleshooting process:
+      1. I right-clicked on the missing icon and selected "Inspect Element," receiving a 404 error code for all 3 icons in the console. 
+      2. Looking at
+      the URLs for the .svg files, I saw that the .svg was from Lucide, so I went to the Lucide website and found that these icons did not exist in the icon set.
+      3. I went to docs.json to double-check the icon library. When hovering over the
+      property in the IDE, the tooltip indicated that the default was supposed to be "fontawesome," not
+      "lucide," so I decided to switch it to fontawesome instead and reloaded
+      the page. The three missing icons ended up loading with the correct library.
+
+      Implentation:
+      I changed one line in docs.json:
+
+      ```json
+      "icons": {
+        "library": "fontawesome"
+      }
+      ```
+
+      Verification:
+      - No more 404 erors in Developer Tools
+      - Used incognito mode to ensure fresh requests
+      - Reloaded using mint dev
+      - Visual confirmation (dark/light mode)
+      - Cross-browser testing
+
+      In the case where the customer would prefer to stick with Lucide, I would recommend the user to change the name of the icons instead with names that exist on https://lucide.dev/icons/.
+    </ResponseField>
+
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="Issue 2">
+  <Expandable title="Issue 2">
+    <ResponseField name="[key]" type="string">
+      One of the following values `website`, `facebook`, `x`, `discord`,
+      `slack`, `github`, `linkedin`, `instagram`, `hacker-news` Example: `x`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+```
