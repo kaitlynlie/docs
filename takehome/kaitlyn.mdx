@@ -6,16 +6,18 @@ description: Troubleshooting steps
 <ResponseField name="Issue 1">
   <Expandable title="Issue 1">
     <ResponseField>
-      Troubleshooting process:
-      1. I right-clicked on the missing icon and selected "Inspect Element," receiving a 404 error code for all 3 icons in the console. 
+      **Troubleshooting process:**
+      1. I right-clicked on the missing icon and selected "Inspect Element," receiving a 404 error code for all 3 icons in the console.
+
       2. Looking at
       the URLs for the .svg files, I saw that the .svg was from Lucide, so I went to the Lucide website and found that these icons did not exist in the icon set.
+
       3. I went to docs.json to double-check the icon library. When hovering over the
       property in the IDE, the tooltip indicated that the default was supposed to be "fontawesome," not
       "lucide," so I decided to switch it to fontawesome instead and reloaded
       the page. The three missing icons ended up loading with the correct library.
 
-      Implentation:
+      **Implentation:**
       I changed one line in docs.json:
 
       ```json
@@ -24,7 +26,7 @@ description: Troubleshooting steps
       }
       ```
 
-      Verification:
+      **Verification:**
       - No more 404 erors in Developer Tools
       - Used incognito mode to ensure fresh requests
       - Reloaded using mint dev
@@ -39,10 +41,22 @@ description: Troubleshooting steps
 
 <ResponseField name="Issue 2">
   <Expandable title="Issue 2">
-    <ResponseField name="[key]" type="string">
-      One of the following values `website`, `facebook`, `x`, `discord`,
-      `slack`, `github`, `linkedin`, `instagram`, `hacker-news` Example: `x`
+    <ResponseField>
+      **Implementation Process:**
+      1. I saw that there was an existing `openapi.json` file with API endpoints already, so I decided to update the existing file rather than create a separate one. In the webhooks section, I added the `newPet` webhook definition and the `Pet` schema in the components/schemas section to define the webhook structure.
+
+      2. Next, I updated the `docs.json` configuration by adding the new "Web Hooks" section to navigation. I created a nested group structure with "Pets" as an expandable component containing a page for "Newpet" as shown in the target image.
+
+      3. I created a `webhooks` folder under `api-reference` with `newpet.mdx` to reference the webhook endpoint. In the `newpet.mdx` file, I wrote:
+      ```json
+      ---
+      title: "New Pet"
+      openapi: "WEBHOOK newPet"
+      ---
+      ```
+      to link to the OpenAPI webhook definition and enable automatic schema generation.
     </ResponseField>
+
   </Expandable>
 </ResponseField>
 ```
