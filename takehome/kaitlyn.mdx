@@ -17,7 +17,7 @@ description: Troubleshooting steps
       "lucide," so I decided to switch it to fontawesome instead and reloaded
       the page. The three missing icons ended up loading with the correct library.
 
-      **Implentation:**
+      **Implementation:**
       I changed one line in docs.json:
 
       ```json
@@ -42,15 +42,140 @@ description: Troubleshooting steps
 <ResponseField name="Issue 2">
   <Expandable title="Issue 2">
     <ResponseField>
-      **Implementation Process:**
-      1. I saw that there was an existing `openapi.json` file with API endpoints already, so I decided to update the existing file rather than create a separate one. In the webhooks section, I added the `newPet` webhook definition and the `Pet` schema in the components/schemas section to define the webhook structure.
+      **Implementation:**
+      1. I saw that there was an existing `openapi.json` file with API endpoints already, so I decided to update the existing file rather than create a separate one. In the webhooks section, I copied the `newPet` webhook definition and the `Pet` schema in the components/schemas section to define the webhook structure.
+
+    <Expandable title="Webhooks">
+      ```json
+      "webhooks": {
+        "/plant/webhook": {
+          "post": {
+            "description": "Information about a new plant added to the store",
+            "requestBody": {
+              "description": "Plant added to the store",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/NewPlant"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Return a 200 status to indicate that the data was received successfully"
+              }
+            }
+          }
+        },
+        // NEW
+        "newPet": {
+          "post": {
+            "summary": "New Pet Created",
+            "description": "Triggered when a new pet is added to the system",
+            "tags": ["Pets"],
+            "requestBody": {
+              "description": "Information about a new pet in the system",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Return a 200 status to indicate that the data was received successfully"
+              }
+            }
+          }
+        }
+      },
+      ```
+      </Expandable>
+
+      <Expandable title="Schemas">
+        ``` json
+        "schemas": {
+          "Plant": {
+            "required": [
+              "name"
+            ],
+            "type": "object",
+            "properties": {
+              "name": {
+                "description": "The name of the plant",
+                "type": "string"
+              },
+              "tag": {
+                "description": "Tag to specify the type",
+                "type": "string"
+              }
+            }
+          },
+          "NewPlant": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Plant"
+              },
+              {
+                "required": [
+                  "id"
+                ],
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "description": "Identification number of the plant",
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              }
+            ]
+          },
+          "Error": {
+            "required": [
+              "error",
+              "message"
+            ],
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          // NEW
+          "Pet": {
+            "required": ["id", "name"],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "name": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        ```
+      </Expandable>
 
       2. Next, I updated the `docs.json` configuration by adding the new "Web Hooks" section to navigation. I created a nested group structure with "Pets" as an expandable component containing a page for "Newpet" as shown in the target image.
 
       3. I created a `webhooks` folder under `api-reference` with `newpet.mdx` to reference the webhook endpoint. In the `newpet.mdx` file, I wrote:
       ```json
       ---
-      title: "New Pet"
+      title: "Newpet"
       openapi: "WEBHOOK newPet"
       ---
       ```
